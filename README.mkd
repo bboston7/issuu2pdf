@@ -1,0 +1,15 @@
+# issuu2pdf #
+Reading documents on issuu.com is really painful, so this tool downloads the
+issuu document and converts it to a pdf.
+The fonts can be a bit fuzzy, but it's still better than using the issuu
+reader.
+
+## Requirements ##
+* python3
+* imagemagick
+* swftools
+
+## Usage ##
+Run issuu2pdf.py with the url and output file name as arguments
+
+    ./issuu2pdf.py url output-file
