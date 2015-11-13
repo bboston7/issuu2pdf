@@ -6,27 +6,20 @@ import sys
 import urllib.error
 import urllib.request
 
-SWF_BASE = "http://page.issuu.com/{}/swf/page_{!s}.swf"
+JPG_BASE = "http://image.issuu.com/{}/jpg/page_{!s}.jpg"
 
-def get_swfs(doc_id):
-    """ Given document id, download swfs and convert to pngs.
-    Returns list of downloaded pngs"""
+def get_jpgs(doc_id):
+    """ Given document id, returns list of downloaded pngs"""
 
     page = 1
     downloaded = []
     try:
         while True:
             print("Attempting to download page " + str(page))
-            print(SWF_BASE.format(doc_id,page))
+            print(JPG_BASE.format(doc_id,page))
 
             # Download page
-            fname, _ = urllib.request.urlretrieve(SWF_BASE.format(doc_id, page))
-
-            # Convert page to png
-            print("Converting page " + str(page) + " to image")
-            print()
-            res = os.system("swfrender " + fname + " -o " + fname)
-            assert res == 0
+            fname, _ = urllib.request.urlretrieve(JPG_BASE.format(doc_id, page))
 
             # Record that we saved this file
             downloaded.append(fname)
@@ -36,7 +29,7 @@ def get_swfs(doc_id):
 
     return downloaded
 
-def swf2pdf(files, outfile):
+def jpg2pdf(files, outfile):
     print("Converting images to pdf " + outfile)
     inputs = " ".join(files)
     res = os.system("convert " + inputs + " " + outfile)
@@ -66,6 +59,6 @@ if __name__ == "__main__":
     outfile = sys.argv[2]
 
     doc_id = get_doc_id(url)
-    files = get_swfs(doc_id)
-    swf2pdf(files, outfile)
+    files = get_jpgs(doc_id)
+    jpg2pdf(files, outfile)
     clean(files)
